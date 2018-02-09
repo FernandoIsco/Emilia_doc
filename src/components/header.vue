@@ -1,9 +1,11 @@
 <template>
   <div class="header">
+    <ul class="nav">
+      <li><a @click="login">sign in</a></li>
+    </ul>
     <div class="search">
       <input type="text" class="search-input" autocomplete="off" />
     </div>
-
   </div>
 </template>
 
@@ -12,6 +14,11 @@ export default {
   name: 'Header',
   data () {
     return {}
+  },
+  methods: {
+    login: function () {
+      this.$emit('login', [1])
+    }
   }
 }
 </script>
@@ -21,4 +28,7 @@ export default {
 
   .search {height: 30px; padding: 5px 0;}
   .search-input {width: 150px; height: 30px; outline: none; line-height: 30px; font-size: 16px; color: #2c3e50; padding: 0 35px; border: 1px solid #e3e3e3; border-radius: 15px; background: #fff url(../assets/images/search.png) 8px 4px no-repeat; background-size: 25px;}
+
+  .nav li a {display: inline-block;line-height: 30px;padding: 5px 10px;font-size: 18px;}
+  .nav li a:hover {color: #42b983;cursor: pointer;}
 </style>

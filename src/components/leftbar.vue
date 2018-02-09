@@ -2,10 +2,10 @@
   <div class="leftbar">
     <ul class="main_menu">
       <li v-for="chapter in chapters" v-bind:key="chapter.id">
-        <a v-bind:href="chapter.href">{{ chapter.name }}</a>
+        <a @click="showContent(chapter.id)">{{ chapter.name }}</a>
         <ul v-if="chapter.hasOwnProperty('sub')" class="sub_menu">
           <li v-for="subChapter in chapter.sub" v-bind:key="subChapter.id">
-            <a v-bind:href="subChapter.href">{{ subChapter.name }}</a>
+            <a @click="showContent(subChapter.id)" >{{ subChapter.name }}</a>
           </li>
         </ul>
       </li>
@@ -20,6 +20,11 @@ export default {
     return {
       chapter: '',
       subChapter: ''
+    }
+  },
+  methods: {
+    showContent: function (id) {
+      this.$emit('showContent', [id])
     }
   },
   props: ['chapters']
