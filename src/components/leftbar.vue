@@ -1,9 +1,9 @@
 <template>
-  <div class="leftbar">
-    <ul class="main_menu">
+  <div class="leftbar" v-bind:style="leftBarStyle">
+    <ul class="main-menu">
       <li v-for="chapter in chapters" v-bind:key="chapter.id">
         <a @click="showContent(chapter.id)">{{ chapter.name }}</a>
-        <ul v-if="chapter.hasOwnProperty('sub')" class="sub_menu">
+        <ul v-if="chapter.hasOwnProperty('sub')" class="sub-menu">
           <li v-for="subChapter in chapter.sub" v-bind:key="subChapter.id">
             <a @click="showContent(subChapter.id)" >{{ subChapter.name }}</a>
           </li>
@@ -16,14 +16,19 @@
 <script>
 export default {
   name: 'LeftBar',
+  mounted: function () {
+    this.leftBarStyle.height = window.screen.availHeight + 'px'
+  },
   data () {
     return {
       chapter: '',
-      subChapter: ''
+      subChapter: '',
+      leftBarStyle: {'height': '100%'}
     }
   },
   methods: {
     showContent: function (id) {
+      window.scrollTo(0, 0)
       this.$emit('showContent', [id])
     }
   },
@@ -32,10 +37,10 @@ export default {
 </script>
 
 <style scoped>
-  .leftbar {padding-top: 20px;width: 220px;display: flex;flex-direction: column;border-right:1px rgba(0,0,0,0.1) solid;}
+  .leftbar {padding-top: 20px;width: 220px;display: flex;flex-direction: column;border-right:1px rgba(0,0,0,0.1) solid;overflow-y: scroll}
   .leftbar li a{display: inline-block;text-indent: 16px;line-height: 36px;cursor: pointer;white-space: nowrap;width: 100%;overflow: hidden;}
   .leftbar li:hover {background-color: #f2f2f2;}
   .leftbar li:hover>a{color: #42b983}
 
-  .sub_menu {padding-left: 20px;}
+  .sub-menu {padding-left: 20px;}
 </style>

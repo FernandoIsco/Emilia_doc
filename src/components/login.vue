@@ -13,7 +13,7 @@
           <label>password: </label><input type="password" class="input-area" v-model="adminPwd">
         </div>
         <div class="form-input form-btn">
-          <button class="btn" @click="userLogin">submit</button>
+          <button class="btn" @click="loginAct">submit</button>
         </div>
       </div>
     </div>
@@ -33,20 +33,33 @@ export default {
     close: function () {
       this.$emit('login', [0])
     },
-    userLogin: function () {
+    loginAct: function () {
       if (!this.adminName || !this.adminPwd) {
         return false
       }
-      let json = {}
-      json.n = 'userLogin'
-      json.q = {}
-      json.q.name = this.adminName
-      json.q.password = this.adminPwd
-      this.$http.post(this.apiDomain, json).then((res) => {
-        alert(res)
-      }).catch(function (error) {
-        console.log(error)
-      })
+      if (process.env.NODE_ENV !== 'development') {
+        let json = {}
+        json.n = 'userLogin'
+        json.q = {}
+        json.q.name = this.adminName
+        json.q.password = this.adminPwd
+        this.$http.post(this.apiDomain, json).then((res) => {
+          alert(res)
+        }).catch(function (error) {
+          console.log(error)
+        })
+      } else {
+        // TODO 设置管理员已登录
+        this.adminLogin()
+        window.location.reload()
+      }
+    },
+    adminLogin: function () {
+      this.userLogin()
+      localStorage.isAdmin = 1
+    },
+    userLogin: function () {
+      localStorage.isLogin = 1
     }
   },
   props: ['show']
@@ -68,5 +81,5 @@ export default {
   .form label {display: inline-block;width: 80px;}
   .input-area {width: 240px; height: 30px; outline: none; line-height: 30px; color: #2c3e50; padding: 0 15px; border: 1px solid #e3e3e3; border-radius: 5px;}
   .form-btn {text-align: center;}
-  .btn {border: none;border-radius: 5px;padding: 5px 10px; cursor: pointer;outline: none}
+  .btn {border: none;border-radius: 5px;padding: 5px 10px; cursor: pointer;outline: none;background-color: #ccc;}
 </style>
