@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import qs from 'qs'
+
 export default {
   name: 'Login',
   data () {
@@ -34,25 +36,21 @@ export default {
       this.$emit('login', [0])
     },
     loginAct: function () {
-      if (!this.adminName || !this.adminPwd) {
-        return false
-      }
-      if (process.env.NODE_ENV !== 'development') {
-        let json = {}
-        json.n = 'userLogin'
-        json.q = {}
-        json.q.name = this.adminName
-        json.q.password = this.adminPwd
-        this.$http.post(this.apiDomain, json).then((res) => {
-          alert(res)
-        }).catch(function (error) {
-          console.log(error)
-        })
-      } else {
-        // TODO 设置管理员已登录
+      if (!this.adminName || !this.adminPwd) return false
+      this.$http({
+        method: 'post',
+        url: this.baseUrl,
+        data: qs.stringify({n: 'userLogin', q: {name: this.adminName, password: this.adminPwd}})
+      }).then((res) => {
+        if (res.data.s) {
+          console.log(res.data.d)
+          return false
+        }
         this.adminLogin()
         window.location.reload()
-      }
+      }).catch(function (error) {
+        console.log(error)
+      })
     },
     adminLogin: function () {
       this.userLogin()
@@ -67,10 +65,10 @@ export default {
 </script>
 
 <style>
-  .dialog {position: fixed; top: 0; left: 0; width: 100%; height: 100%;}
+  .dialog {position: fixed; top: 0; left: 0; width: 100%; height: 100%;z-index: 1501;}
 
-  .dialog-bg {position: absolute;width: 100%; height: 100%;background: #fff; opacity: 0; filter: alpha(opacity=50); z-index: 99;}
-  .modal {position: absolute;width: 480px; height: 220px; border: 1px #ccc solid; border-radius: 5px; background-color: #fff;box-shadow: 0 0 30px #888; z-index: 100; top: 30%; left: 35%}
+  .dialog-bg {position: absolute;width: 100%; height: 100%;background: #fff; opacity: 0; filter: alpha(opacity=50);}
+  .modal {position: absolute;width: 480px; height: 220px; border: 1px #ccc solid; border-radius: 5px; background-color: #fff;box-shadow: 0 0 30px #888;top: 30%; left: 35%}
 
   .modal-header {height: 30px;width: 100%; border-bottom: 1px rgba(0,0,0,0.1) solid;}
   .modal-close {float: right;width: 24px; height: 24px;line-height: 30px;cursor: pointer;font-size: 20px;}
