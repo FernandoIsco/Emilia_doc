@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import qs from 'qs'
 import commonHeader from '@/components/header'
 import leftBar from '@/components/leftbar'
 import LoginDialog from '@/components/login'
@@ -30,11 +29,21 @@ export default {
     }
   },
   created: function () {
-    this.getApiData()
+    this.getToken()
+    this.getDocument()
   },
   methods: {
-    getApiData () {
-      this.$http.get(this.baseUrl + '?n=document').then((res) => {
+    getToken () {
+      let data = {n: 'token', q: {token: ''}}
+      this.$http(this.xhrData('post', data)).then((res) => {
+        console.log(res)
+      }).catch(function (error) {
+        console.log(error)
+      })
+    },
+    getDocument () {
+      let data = {n: 'document'}
+      this.$http(this.xhrData('get', data)).then((res) => {
         this.chapters = res.data.result
         this.showContent(0)
       }).catch(function (error) {
@@ -47,8 +56,8 @@ export default {
       }
 
       this.chapterId = id
-      this.renderContent = this.chapters[this.chapterId].render
-      this.content = this.chapters[this.chapterId].content
+      this.renderContent = this.chapters[0].render
+      this.content = this.chapters[0].content
 
       for (let i = 0; i < this.chapters.length; i++) {
         let chapter = this.chapters[i]
@@ -71,11 +80,8 @@ export default {
       }
     },
     saveCont: function (value, render) {
-      this.$http({
-        method: 'put',
-        url: this.baseUrl,
-        data: qs.stringify({n: 'document', q: {id: this.chapterId.toString(), value: value, render: render}})
-      }).then((res) => {
+      let data = {n: 'document', q: {id: this.chapterId.toString(), value: value, render: render}}
+      this.$http(this.xhrData('put', data)).then((res) => {
         if (this.chapters.length <= 0) return true
 
         for (let i = 0; i < this.chapters.length; i++) {

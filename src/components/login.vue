@@ -21,8 +21,6 @@
 </template>
 
 <script>
-import qs from 'qs'
-
 export default {
   name: 'Login',
   data () {
@@ -37,11 +35,9 @@ export default {
     },
     loginAct: function () {
       if (!this.adminName || !this.adminPwd) return false
-      this.$http({
-        method: 'post',
-        url: this.baseUrl,
-        data: qs.stringify({n: 'userLogin', q: {name: this.adminName, password: this.adminPwd}})
-      }).then((res) => {
+
+      let data = {n: 'userLogin', q: {name: this.adminName, password: this.adminPwd}}
+      this.$http(this.xhrData('post', data)).then((res) => {
         if (res.data.s) {
           console.log(res.data.d)
           return false
