@@ -36,8 +36,15 @@ export default {
     loginAct: function () {
       if (!this.adminName || !this.adminPwd) return false
 
+      let _ = this
       let data = {n: 'userLogin', q: {name: this.adminName, password: this.adminPwd}}
-      this.$http(this.xhrData('post', data)).then((res) => {
+      _.$http.post(data).then(function (data) {
+        console.log(data)
+      }).catch(function (error) {
+        console.log(error)
+      })
+
+      /* this.$http(this.xhrData('post', data)).then((res) => {
         if (res.data.s) {
           console.log(res.data.d)
           return false
@@ -46,7 +53,7 @@ export default {
         window.location.reload()
       }).catch(function (error) {
         console.log(error)
-      })
+      }) */
     },
     adminLogin: function () {
       this.userLogin()
