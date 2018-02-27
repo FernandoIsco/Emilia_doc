@@ -3,17 +3,15 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import axios from 'axios'
-import config from './utils/config'
-import xhr from './utils/xhr'
+import http from './utils/http'
+import cookie from './utils/cookie'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 
 Vue.config.productionTip = false
-Vue.prototype.$http = axios
+Vue.prototype.$http = http
+Vue.prototype.$cookie = cookie
 Vue.use(mavonEditor)
-Vue.use(config)
-Vue.use(xhr)
 
 /* eslint-disable no-new */
 new Vue({

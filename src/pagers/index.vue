@@ -30,22 +30,23 @@ export default {
   },
   created: function () {
     this.getToken()
-    this.getDocument()
   },
   methods: {
     getToken () {
-      let data = {n: 'token', q: {token: ''}}
-      this.$http(this.xhrData('post', data)).then((res) => {
-        console.log(res)
+      let _ = this
+      _.$http.post({n: 'token'}).then(function (data) {
+        _.$cookie.set('session', data.result.token)
+      }).then(function () {
+        _.getDocument()
       }).catch(function (error) {
         console.log(error)
       })
     },
     getDocument () {
-      let data = {n: 'document'}
-      this.$http(this.xhrData('get', data)).then((res) => {
-        this.chapters = res.data.result
-        this.showContent(0)
+      let _ = this
+      _.$http.fetch({n: 'document'}).then(function (data) {
+        _.chapters = data.result
+        _.showContent(0)
       }).catch(function (error) {
         console.log(error)
       })
