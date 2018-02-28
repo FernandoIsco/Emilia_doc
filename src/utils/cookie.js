@@ -11,7 +11,7 @@ let cookie = {
     if (arr != null) return unescape(arr[2])
     return null
   },
-  del: function () {
+  del: function (name) {
     let expires = new Date()
     expires.setTime(expires.getTime() - 1)
 

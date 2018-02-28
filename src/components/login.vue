@@ -39,28 +39,12 @@ export default {
       let _ = this
       let data = {n: 'userLogin', q: {name: this.adminName, password: this.adminPwd}}
       _.$http.post(data).then(function (data) {
-        console.log(data)
-      }).catch(function (error) {
-        console.log(error)
-      })
-
-      /* this.$http(this.xhrData('post', data)).then((res) => {
-        if (res.data.s) {
-          console.log(res.data.d)
-          return false
-        }
-        this.adminLogin()
+        _.$cookie.set('userName', data.result.userInfo.name)
+        _.$cookie.set('isAdmin', data.result.userInfo.admin)
         window.location.reload()
       }).catch(function (error) {
         console.log(error)
-      }) */
-    },
-    adminLogin: function () {
-      this.userLogin()
-      localStorage.isAdmin = 1
-    },
-    userLogin: function () {
-      localStorage.isLogin = 1
+      })
     }
   },
   props: ['show']

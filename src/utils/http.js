@@ -22,5 +22,19 @@ export default {
       data: params,
       headers: {'x-requested-with': 'XMLHttpRequest'}
     })
+  },
+  put (params = {}) {
+    return this.request({
+      method: 'put',
+      data: params,
+      headers: {'x-requested-with': 'XMLHttpRequest'}
+    })
+  },
+  remove (params = {}) {
+    return this.request({
+      method: 'delete',
+      data: params,
+      headers: {'x-requested-with': 'XMLHttpRequest'}
+    })
   }
 }
