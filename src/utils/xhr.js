@@ -33,7 +33,16 @@ axios.interceptors.request.use(
 // http response 拦截器
 axios.interceptors.response.use(
   response => {
-    return response
+    console.log(response)
+    if (response.data.hasOwnProperty('s')) {
+      if (parseInt(response.data.s) !== 0) {
+        throw new Error(response.data.d)
+      }
+
+      return response
+    }
+
+    throw new Error('network is wrong')
   },
   error => {
     return Promise.reject(error.response.data)

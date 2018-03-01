@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <commonHeader v-on:login="login"></commonHeader>
+    <commonHeader v-on:login="login" v-on:logout="logout" v-on:searchAct="searchAct"></commonHeader>
     <div class="content">
       <leftBar v-bind:chapters="chapters" v-on:showContent="showContent"></leftBar>
-      <div class="editor wInherit" v-if="isAdmin != 1"><mavon-editor v-model="content" class="wInherit" :toolbarsFlag="false" :editable="false" :default_open="defaultOpen" :subfield="false"></mavon-editor></div>
-      <div class="editor wInherit" v-else><mavon-editor v-model="content" class="wInherit" :ishljs="true" @save="saveCont"></mavon-editor></div>
+      <div class="editor wInherit" v-if="editable"><mavon-editor v-model="content" class="wInherit" :ishljs="true" @save="saveCont"></mavon-editor></div>
+      <div class="editor wInherit" v-else><mavon-editor v-model="content" class="wInherit" :toolbarsFlag="false" :editable="false" :default_open="defaultOpen" :subfield="false"></mavon-editor></div>
     </div>
     <LoginDialog v-show="loginShow == 1" v-on:login="login"></LoginDialog>
   </div>
@@ -19,13 +19,13 @@ export default {
   name: 'Index',
   data () {
     return {
+      chapters: '', // 所有章节
+      chapterId: 0, // 当前选中的章节
+      content: '', // 显示内容
+      loginShow: 0, // 登录框是否显示
+      editable: parseInt(this.$cookie.get('isAdmin')) === 1 && this.$cookie.get('userName') !== '',
       defaultOpen: 'preview',
-      chapters: '',
-      renderContent: '',
-      chapterId: 0,
-      content: '',
-      loginShow: 0,
-      isAdmin: localStorage.getItem('isAdmin')
+      searchInterval: ''
     }
   },
   created: function () {
@@ -45,7 +45,7 @@ export default {
     getDocument () {
       let _ = this
       _.$http.fetch({n: 'document'}).then(function (data) {
-        _.chapters = data.result
+        _.chapters = data.result.documents
         _.showContent(0)
       }).catch(function (error) {
         console.log(error)
@@ -57,13 +57,11 @@ export default {
       }
 
       this.chapterId = id
-      this.renderContent = this.chapters[0].render
       this.content = this.chapters[0].content
 
       for (let i = 0; i < this.chapters.length; i++) {
         let chapter = this.chapters[i]
         if (this.chapterId.toString() === chapter.id.toString()) {
-          this.renderContent = chapter.render
           this.content = chapter.content
           return true
         }
@@ -72,7 +70,6 @@ export default {
           for (let j = 0; j < chapter.sub.length; j++) {
             let subChapter = chapter.sub[j]
             if (this.chapterId.toString() === subChapter.id.toString()) {
-              this.renderContent = subChapter.render
               this.content = subChapter.content
               return true
             }
@@ -81,13 +78,14 @@ export default {
       }
     },
     saveCont: function (value, render) {
-      let data = {n: 'document', q: {id: this.chapterId.toString(), value: value, render: render}}
-      this.$http(this.xhrData('put', data)).then((res) => {
-        if (this.chapters.length <= 0) return true
+      let _ = this
+      let json = {n: 'document', q: {id: this.chapterId.toString(), value: value, render: render}}
+      this.$http.put(json).then(function (data) {
+        if (_.chapters.length <= 0) return true
 
-        for (let i = 0; i < this.chapters.length; i++) {
-          let chapter = this.chapters[i]
-          if (this.chapterId.toString() === chapter.id.toString()) {
+        for (let i = 0; i < _.chapters.length; i++) {
+          let chapter = _.chapters[i]
+          if (_.chapterId.toString() === chapter.id.toString()) {
             chapter.render = render
             chapter.content = value
             return true
@@ -96,7 +94,7 @@ export default {
           if (chapter.hasOwnProperty('sub')) {
             for (let j = 0; j < chapter.sub.length; j++) {
               let subChapter = chapter.sub[j]
-              if (this.chapterId.toString() === subChapter.id.toString()) {
+              if (_.chapterId.toString() === subChapter.id.toString()) {
                 subChapter.render = render
                 subChapter.content = value
                 return true
@@ -108,8 +106,55 @@ export default {
         console.log(error)
       })
     },
+    searchAct (key) {
+      let ids
+      clearTimeout(this.searchInterval)
+      if (key) {
+        let _ = this
+        this.searchInterval = setTimeout(function () {
+          ids = []
+          _.$http.fetch({n: 'document', q: {w: {sk: key}}}).then(function (data) {
+            if (data.result.ids) {
+              for (let i = 0; i < data.result.ids.length; i++) {
+                let idItem = data.result.ids[i]
+                ids.push(idItem.id)
+                ids.push(idItem.parent_id)
+              }
+            }
+            _.searchContent(ids)
+          }).catch(function (error) {
+            console.log(error)
+          })
+        }, 250)
+      } else {
+        this.searchContent(ids)
+      }
+    },
+    searchContent (ids) {
+      for (let i = 0; i < this.chapters.length; i++) {
+        let chapter = this.chapters[i]
+        chapter.searched = (!ids || (ids && ids.indexOf(chapter.id) >= 0)) ? 1 : 0
+
+        if (chapter.hasOwnProperty('sub')) {
+          for (let j = 0; j < chapter.sub.length; j++) {
+            let subChapter = chapter.sub[j]
+            subChapter.searched = (!ids || (ids && ids.indexOf(subChapter.id) >= 0)) ? 1 : 0
+          }
+        }
+      }
+    },
     login (bool) {
       this.loginShow = bool
+    },
+    logout () {
+      let _ = this
+      this.$http.remove({n: 'userLogin'}).then(function (data) {
+        _.$cookie.del('userName')
+        _.$cookie.del('isAdmin')
+        window.location.reload()
+      }).catch(function (error) {
+        console.log(error)
+      })
     }
   },
   components: {commonHeader, leftBar, LoginDialog}

@@ -7,10 +7,10 @@
       </div>
       <div class="form">
         <div class="form-input">
-          <label>admin: </label><input type="text" class="input-area" v-model="adminName">
+          <label>admin: </label><input type="text" class="input-area" v-model="adminName" autocomplete="off">
         </div>
         <div class="form-input">
-          <label>password: </label><input type="password" class="input-area" v-model="adminPwd">
+          <label>password: </label><input type="password" class="input-area" v-model="adminPwd" autocomplete="off">
         </div>
         <div class="form-input form-btn">
           <button class="btn" @click="loginAct">submit</button>
@@ -39,28 +39,12 @@ export default {
       let _ = this
       let data = {n: 'userLogin', q: {name: this.adminName, password: this.adminPwd}}
       _.$http.post(data).then(function (data) {
-        console.log(data)
-      }).catch(function (error) {
-        console.log(error)
-      })
-
-      /* this.$http(this.xhrData('post', data)).then((res) => {
-        if (res.data.s) {
-          console.log(res.data.d)
-          return false
-        }
-        this.adminLogin()
+        _.$cookie.set('userName', data.result.userInfo.name)
+        _.$cookie.set('isAdmin', data.result.userInfo.admin)
         window.location.reload()
       }).catch(function (error) {
         console.log(error)
-      }) */
-    },
-    adminLogin: function () {
-      this.userLogin()
-      localStorage.isAdmin = 1
-    },
-    userLogin: function () {
-      localStorage.isLogin = 1
+      })
     }
   },
   props: ['show']
