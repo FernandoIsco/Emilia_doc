@@ -8,7 +8,7 @@
       <li><a @click="logout">sign out</a></li>
     </ul>
     <div class="search">
-      <input type="text" class="search-input" autocomplete="off" />
+      <input type="text" class="search-input" autocomplete="off" @keyup="searchAct" v-model="searchKey"/>
     </div>
   </div>
 </template>
@@ -18,6 +18,7 @@ export default {
   name: 'Header',
   data () {
     return {
+      searchKey: '',
       userName: this.$cookie.get('userName') || ''
     }
   },
@@ -27,6 +28,9 @@ export default {
     },
     logout () {
       this.$emit('logout')
+    },
+    searchAct () {
+      this.$emit('searchAct', this.searchKey)
     }
   }
 }

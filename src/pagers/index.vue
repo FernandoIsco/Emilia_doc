@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <commonHeader v-on:login="login" v-on:logout="logout"></commonHeader>
+    <commonHeader v-on:login="login" v-on:logout="logout" v-on:searchAct="searchAct"></commonHeader>
     <div class="content">
       <leftBar v-bind:chapters="chapters" v-on:showContent="showContent"></leftBar>
       <div class="editor wInherit" v-if="editable"><mavon-editor v-model="content" class="wInherit" :ishljs="true" @save="saveCont"></mavon-editor></div>
@@ -19,13 +19,13 @@ export default {
   name: 'Index',
   data () {
     return {
+      chapters: '', // 所有章节
+      chapterId: 0, // 当前选中的章节
+      content: '', // 显示内容
+      loginShow: 0, // 登录框是否显示
+      editable: parseInt(this.$cookie.get('isAdmin')) === 1 && this.$cookie.get('userName') !== '',
       defaultOpen: 'preview',
-      chapters: '',
-      renderContent: '',
-      chapterId: 0,
-      content: '',
-      loginShow: 0,
-      editable: parseInt(this.$cookie.get('isAdmin')) === 1 && this.$cookie.get('userName') !== ''
+      searchInterval: ''
     }
   },
   created: function () {
@@ -57,13 +57,11 @@ export default {
       }
 
       this.chapterId = id
-      this.renderContent = this.chapters[0].render
       this.content = this.chapters[0].content
 
       for (let i = 0; i < this.chapters.length; i++) {
         let chapter = this.chapters[i]
         if (this.chapterId.toString() === chapter.id.toString()) {
-          this.renderContent = chapter.render
           this.content = chapter.content
           return true
         }
@@ -72,7 +70,6 @@ export default {
           for (let j = 0; j < chapter.sub.length; j++) {
             let subChapter = chapter.sub[j]
             if (this.chapterId.toString() === subChapter.id.toString()) {
-              this.renderContent = subChapter.render
               this.content = subChapter.content
               return true
             }
@@ -108,6 +105,43 @@ export default {
       }).catch(function (error) {
         console.log(error)
       })
+    },
+    searchAct (key) {
+      let ids
+      clearTimeout(this.searchInterval)
+      if (key) {
+        let _ = this
+        this.searchInterval = setTimeout(function () {
+          ids = []
+          _.$http.fetch({n: 'document', q: {w: {sk: key}}}).then(function (data) {
+            if (data.result.ids) {
+              for (let i = 0; i < data.result.ids.length; i++) {
+                let idItem = data.result.ids[i]
+                ids.push(idItem.id)
+                ids.push(idItem.parent_id)
+              }
+            }
+            _.searchContent(ids)
+          }).catch(function (error) {
+            console.log(error)
+          })
+        }, 250)
+      } else {
+        this.searchContent(ids)
+      }
+    },
+    searchContent (ids) {
+      for (let i = 0; i < this.chapters.length; i++) {
+        let chapter = this.chapters[i]
+        chapter.searched = (!ids || (ids && ids.indexOf(chapter.id) >= 0)) ? 1 : 0
+
+        if (chapter.hasOwnProperty('sub')) {
+          for (let j = 0; j < chapter.sub.length; j++) {
+            let subChapter = chapter.sub[j]
+            subChapter.searched = (!ids || (ids && ids.indexOf(subChapter.id) >= 0)) ? 1 : 0
+          }
+        }
+      }
     },
     login (bool) {
       this.loginShow = bool

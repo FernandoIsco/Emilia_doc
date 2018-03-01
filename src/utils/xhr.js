@@ -36,15 +36,13 @@ axios.interceptors.response.use(
     console.log(response)
     if (response.data.hasOwnProperty('s')) {
       if (parseInt(response.data.s) !== 0) {
-        const err = new Error(response.data.d)
-        throw err
+        throw new Error(response.data.d)
       }
 
       return response
     }
 
-    const err = new Error('something is wrong')
-    throw err
+    throw new Error('network is wrong')
   },
   error => {
     return Promise.reject(error.response.data)

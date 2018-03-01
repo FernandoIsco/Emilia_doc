@@ -7,10 +7,10 @@
       </div>
       <div class="form">
         <div class="form-input">
-          <label>admin: </label><input type="text" class="input-area" v-model="adminName">
+          <label>admin: </label><input type="text" class="input-area" v-model="adminName" autocomplete="off">
         </div>
         <div class="form-input">
-          <label>password: </label><input type="password" class="input-area" v-model="adminPwd">
+          <label>password: </label><input type="password" class="input-area" v-model="adminPwd" autocomplete="off">
         </div>
         <div class="form-input form-btn">
           <button class="btn" @click="loginAct">submit</button>
