@@ -2,7 +2,6 @@ import md5 from 'js-md5'
 
 let sign = {
   getToken: function (params, key) {
-    console.log(sign.assemble(params))
     return md5(sign.assemble(params) + key).toUpperCase()
   },
   assemble: function (params) {
