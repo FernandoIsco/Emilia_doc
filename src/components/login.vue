@@ -1,9 +1,9 @@
 <template>
-  <div class="dialog">
-    <div class="dialog-bg" @click="close()"></div>
+  <div class="dialog" v-show="loginShow">
+    <div class="dialog-bg" @click="close"></div>
     <div class="modal">
       <div class="modal-header">
-        <span class="modal-close" @click="close()">x</span>
+        <span class="modal-close" @click="close">x</span>
       </div>
       <div class="form">
         <div class="form-input">
@@ -21,17 +21,19 @@
 </template>
 
 <script>
+import bus from '../utils/event'
 export default {
   name: 'Login',
   data () {
     return {
+      loginShow: 0,
       adminName: '',
       adminPwd: ''
     }
   },
   methods: {
     close: function () {
-      this.$emit('login', [0])
+      this.loginShow = 0
     },
     loginAct: function () {
       if (!this.adminName || !this.adminPwd) return false
@@ -47,7 +49,12 @@ export default {
       })
     }
   },
-  props: ['show']
+  mounted: function () {
+    let _ = this
+    bus.$on('showLoginAct', function () {
+      _.loginShow = 1
+    })
+  }
 }
 </script>
 

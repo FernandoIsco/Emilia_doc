@@ -1,0 +1,281 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "序言",
+      "parent_id": "0",
+      "content": "### 序言",
+      "render": "<p>序言</p>"
+    },
+    {
+      "id": 2,
+      "name": "基础",
+      "parent_id": "0",
+      "content": "基础",
+      "render": "基础",
+      "sub": [
+        {
+          "id": 4,
+          "name": "下载",
+          "parent_id": "2",
+          "content": "下载",
+          "render": "下载"
+        },
+        {
+          "id": 5,
+          "name": "目录结构",
+          "parent_id": "2",
+          "content": "目录结构",
+          "render": "目录结构"
+        },
+        {
+          "id": 6,
+          "name": "开发规范",
+          "parent_id": "2",
+          "content": "开发规范",
+          "render": "开发规范"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "配置",
+      "parent_id": "0",
+      "content": "配置",
+      "render": "配置",
+      "sub": [
+        {
+          "id": 8,
+          "name": "读取配置",
+          "parent_id": "3",
+          "content": "读取配置",
+          "render": "读取配置"
+        },
+        {
+          "id": 9,
+          "name": "扩展配置",
+          "parent_id": "3",
+          "content": "扩展配置",
+          "render": "扩展配置"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "路由",
+      "parent_id": "0",
+      "content": "路由",
+      "render": "路由",
+      "sub": [
+        {
+          "id": 11,
+          "name": "url模式",
+          "parent_id": "10",
+          "content": "url模式",
+          "render": "url模式"
+        },
+        {
+          "id": 12,
+          "name": "路由定义",
+          "parent_id": "10",
+          "content": "路由定义",
+          "render": "路由定义"
+        },
+        {
+          "id": 13,
+          "name": "闭包支持",
+          "parent_id": "10",
+          "content": "闭包支持",
+          "render": "闭包支持"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "控制器",
+      "parent_id": "0",
+      "content": "控制器",
+      "render": "控制器",
+      "sub": [
+        {
+          "id": 15,
+          "name": "控制器定义",
+          "parent_id": "14",
+          "content": "控制器定义",
+          "render": "控制器定义"
+        },
+        {
+          "id": 16,
+          "name": "跳转和重定向",
+          "parent_id": "14",
+          "content": "跳转和重定向",
+          "render": "跳转和重定向"
+        },
+        {
+          "id": 17,
+          "name": "异步返回",
+          "parent_id": "14",
+          "content": "异步返回",
+          "render": "异步返回"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "数据库",
+      "parent_id": "0",
+      "content": "数据库",
+      "render": "数据库",
+      "sub": [
+        {
+          "id": 19,
+          "name": "数据库配置",
+          "parent_id": "18",
+          "content": "数据库配置",
+          "render": "数据库配置"
+        },
+        {
+          "id": 20,
+          "name": "基本使用",
+          "parent_id": "18",
+          "content": "基本使用",
+          "render": "基本使用"
+        },
+        {
+          "id": 21,
+          "name": "语句构造",
+          "parent_id": "18",
+          "content": "语句构造",
+          "render": "语句构造"
+        },
+        {
+          "id": 22,
+          "name": "事物操作",
+          "parent_id": "18",
+          "content": "事物操作",
+          "render": "事物操作"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "name": "模型",
+      "parent_id": "0",
+      "content": "模型",
+      "render": "模型",
+      "sub": [
+        {
+          "id": 24,
+          "name": "模型定义",
+          "parent_id": "23",
+          "content": "模型定义",
+          "render": "模型定义 "
+        },
+        {
+          "id": 25,
+          "name": "使用方法",
+          "parent_id": "23",
+          "content": "使用方法",
+          "render": "使用方法"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "name": "视图",
+      "parent_id": "0",
+      "content": "视图",
+      "render": "视图",
+      "sub": [
+        {
+          "id": 27,
+          "name": "模板渲染",
+          "parent_id": "26",
+          "content": "模板渲染",
+          "render": "模板渲染"
+        },
+        {
+          "id": 28,
+          "name": "模板赋值",
+          "parent_id": "26",
+          "content": "模板赋值",
+          "render": "模板赋值"
+        },
+        {
+          "id": 29,
+          "name": "模板布局",
+          "parent_id": "26",
+          "content": "模板布局",
+          "render": "模板布局"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "name": "日志",
+      "parent_id": "0",
+      "content": "日志",
+      "render": "日志",
+      "sub": [
+        {
+          "id": 31,
+          "name": "日志驱动",
+          "parent_id": "30",
+          "content": "日志驱动",
+          "render": "日志驱动"
+        },
+        {
+          "id": 32,
+          "name": "写入日志",
+          "parent_id": "30",
+          "content": "写入日志",
+          "render": "写入日志"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "name": "其它",
+      "parent_id": "0",
+      "content": "其它",
+      "render": "其它",
+      "sub": [
+        {
+          "id": 34,
+          "name": "输入安全",
+          "parent_id": "33",
+          "content": "输入安全",
+          "render": "输入安全"
+        },
+        {
+          "id": 35,
+          "name": "缓存",
+          "parent_id": "33",
+          "content": "缓存",
+          "render": "缓存"
+        },
+        {
+          "id": 36,
+          "name": "cookie",
+          "parent_id": "33",
+          "content": "cookie",
+          "render": "cookie"
+        },
+        {
+          "id": 37,
+          "name": "session",
+          "parent_id": "33",
+          "content": "session",
+          "render": "session"
+        },
+        {
+          "id": 38,
+          "name": "单元测试",
+          "parent_id": "33",
+          "content": "单元测试",
+          "render": "单元测试"
+        }
+      ]
+    }
+  ]
+}

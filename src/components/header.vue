@@ -1,19 +1,20 @@
 <template>
   <div class="header">
     <ul class="nav" v-if="userName == ''">
-      <li><a @click="login">sign in</a></li>
+      <li><a @click="showLoginAct">sign in</a></li>
     </ul>
     <ul class="nav" v-else>
       <li><a>{{userName}}</a></li>
       <li><a @click="logout">sign out</a></li>
     </ul>
-    <div class="search">
+    <div class="search" v-show="searchAble == 1">
       <input type="text" class="search-input" autocomplete="off" @keyup="searchAct" v-model="searchKey"/>
     </div>
   </div>
 </template>
 
 <script>
+import bus from '../utils/event'
 export default {
   name: 'Header',
   data () {
@@ -23,14 +24,27 @@ export default {
     }
   },
   methods: {
-    login () {
-      this.$emit('login', [1])
+    showLoginAct () {
+      bus.$emit('showLoginAct')
     },
     logout () {
-      this.$emit('logout')
+      let _ = this
+      this.$http.remove({n: 'userLogin'}).then(function (data) {
+        _.$cookie.del('userName')
+        _.$cookie.del('isAdmin')
+        window.location.reload()
+      }).catch(function (error) {
+        console.log(error)
+      })
     },
     searchAct () {
-      this.$emit('searchAct', this.searchKey)
+      this.$emit('searchAct', {searchKey: this.searchKey})
+    }
+  },
+  props: {
+    'searchAble': {
+      default: 1,
+      type: Number
     }
   }
 }
