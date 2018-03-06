@@ -8,9 +8,9 @@
           <a>{{blog.title}}</a>
         </div>
         <div class="meta">
-          <a>{{blog.user_id}}</a>
+          <a>{{blog.username}}</a>
           <span class="dot">-</span>
-          <span class="date">{{blog.created_at}}</span>
+          <span class="date">{{(new Date(blog.created_at)).toDateString()}}</span>
           <span class="dot">-</span>
           <a>{{blog.comments}} 评论</a>
         </div>
@@ -39,7 +39,7 @@ export default {
   methods: {
     getBlogs () {
       let _ = this
-      this.$http.fetch({n: 'blogs', q: {ta: {pa: 0, li: 5}}}).then(function (data) {
+      this.$http.fetch({n: 'blogs', q: {ta: {pa: 1, li: 10, or: {'created_at': 'desc'}}}}).then(function (data) {
         _.blogs = data.result.list
       }).catch(function (error) {
         console.log(error)

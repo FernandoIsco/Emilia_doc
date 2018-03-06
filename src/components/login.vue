@@ -69,9 +69,9 @@ export default {
   .modal-close:hover {color: #42b983;}
 
   .form {padding: 20px 50px; }
-  .form-input {padding: 10px 0;width: 360px;font-size: 16px;}
+  .form-input {padding: 10px 0;width: 360px;font-size: 16px;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif}
   .form label {display: inline-block;width: 80px;}
-  .input-area {width: 240px; height: 30px; outline: none; line-height: 30px; color: #2c3e50; padding: 0 15px; border: 1px solid #e3e3e3; border-radius: 5px;}
+  .input-area {width: 240px; height: 30px; outline: none; line-height: 30px; color: #2c3e50;font-size: 16px; padding: 0 15px; border: 1px solid #e3e3e3; border-radius: 5px;}
   .form-btn {text-align: center;}
-  .btn {border: none;border-radius: 5px;padding: 5px 10px; cursor: pointer;outline: none;background-color: #ccc;}
+  .btn {border: none;border-radius: 5px;padding: 5px 10px;font-size: 16px; cursor: pointer;outline: none;background-color: #ccc;}
 </style>
