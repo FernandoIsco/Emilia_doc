@@ -17,6 +17,6 @@ Vue.use(mavonEditor)
 new Vue({
   el: '#app',
   router,
-  components: {App, mavonEditor},
+  components: {App},
   template: '<App/>'
 })

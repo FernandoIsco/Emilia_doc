@@ -1,14 +1,16 @@
 <template>
   <div class="header">
-    <ul class="nav" v-if="userName == ''">
-      <li><a @click="showLoginAct">sign in</a></li>
-    </ul>
-    <ul class="nav" v-else>
-      <li><a>{{userName}}</a></li>
-      <li><a @click="logout">sign out</a></li>
-    </ul>
-    <div class="search" v-show="searchAble == 1">
-      <input type="text" class="search-input" autocomplete="off" @keyup="searchAct" v-model="searchKey"/>
+    <div class="wrap" v-bind:style="wrapStyle">
+      <ul class="nav" v-if="userName == ''">
+        <li><a @click="showLoginAct">登录</a></li>
+      </ul>
+      <ul class="nav" v-else>
+        <li><a>{{userName}}</a></li>
+        <li><a @click="logout">登出</a></li>
+      </ul>
+      <div class="search" v-show="searchAble == 1">
+        <input type="text" class="search-input" autocomplete="off" @keyup="searchAct" v-model="searchKey"/>
+      </div>
     </div>
   </div>
 </template>
@@ -45,7 +47,8 @@ export default {
     'searchAble': {
       default: 1,
       type: Number
-    }
+    },
+    'wrapStyle': {}
   }
 }
 </script>
@@ -53,18 +56,21 @@ export default {
 <style scoped>
   .header {
     font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "\9ED1\4F53", Arial, sans-serif;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(150, 150, 150, 0.4);
+  }
+
+  .wrap {
     display: flex;
     flex-direction: row-reverse;
-    position: relative;
     height: 40px;
     background-color: #fff;
-    padding: 10px 10px 10px 100px;
-    box-shadow: 0 1px 2px rgba(150, 150, 150, 0.4);
+    padding: 10px;
   }
 
   .search {
     height: 30px;
-    padding: 5px 0;
+    padding: 5px 5px 5px 0;
   }
 
   .search-input {
@@ -90,7 +96,6 @@ export default {
     display: inline-block;
     line-height: 30px;
     padding: 5px 10px;
-    font-size: 18px;
   }
 
   .nav li a:hover {

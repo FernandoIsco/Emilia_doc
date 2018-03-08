@@ -17,15 +17,11 @@
 <script>
 export default {
   name: 'LeftBar',
-  mounted: function () {
-    this.leftBarStyle.height = window.screen.availHeight + 'px'
-  },
   data () {
     return {
       chapterId: 0,
       chapter: '',
-      subChapter: '',
-      leftBarStyle: {'height': '100%'}
+      subChapter: ''
     }
   },
   methods: {
