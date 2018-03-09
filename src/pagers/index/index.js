@@ -35,7 +35,7 @@ export default {
       this.scrollTimeout && clearTimeout(this.scrollTimeout)
 
       let _ = this
-      if ((1600 * this.page - window.scrollY) < 800) {
+      if ((1600 * this.page - window.scrollY) < 1000) {
         _.page += 1
         _.getBlogs()
       }

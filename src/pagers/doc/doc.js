@@ -10,7 +10,6 @@ export default {
       chapterId: 0, // 当前选中的章节
       content: '', // 显示内容
       editable: parseInt(this.$cookie.get('isAdmin')) === 1 && this.$cookie.get('userName') !== '',
-      defaultOpen: 'preview',
       searchInterval: ''
     }
   },

@@ -6,7 +6,7 @@
       <div class="editor">
         <div class="editor-body">
           <mavon-editor v-if="editable" v-model="content" :ishljs="true" @save="saveCont"></mavon-editor>
-          <mavon-editor  v-else v-model="content" :toolbarsFlag="false" :editable="false" :default_open="defaultOpen" :subfield="false"></mavon-editor>
+          <mavon-editor  v-else v-model="content" :toolbarsFlag="false" :editable="false" :default_open="'preview'" :subfield="false"></mavon-editor>
         </div>
         <div class="footer">
           <ul>

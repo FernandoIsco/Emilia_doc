@@ -13,6 +13,11 @@ export default {
   li {list-style: none;}
   a {text-decoration: none; color: #666}
   .none {display: none}
+  h1, h2, h3, h4, h5, h6 {
+    font-family: -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif;
+    font-weight: 500;
+    margin: 0;
+  }
 
   .leftbar::-webkit-scrollbar, .editor::-webkit-scrollbar { /*滚动条整体样式*/
     width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
